@@ -36,8 +36,8 @@ public:
     
     double input_upper_limit = 2;
     double input_lower_limit = -2;
-    double output_upper_limit = 2;
-    double output_lower_limit = -2;
+    double output_upper_limit = 5;
+    double output_lower_limit = -5;
     
     
     

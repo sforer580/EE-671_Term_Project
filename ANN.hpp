@@ -58,6 +58,7 @@ public:
     
     double state;
     void communication(double ANN_input);
+    void normalize_inputs();
     
     void get_inputs();
     
@@ -123,9 +124,20 @@ void Neural_Network::build_ANN()
 ////////////////////////////////////////////////////////////////
 //Get Communication
 //Assigns the inputs and weights to Neural Network class variables
+void Neural_Network::normalize_inputs()
+{
+    state = (state - pP->input_lower_limit)/(pP->input_upper_limit - pP->input_lower_limit);
+}
+
+
+////////////////////////////////////////////////////////////////
+//Get Communication
+//Assigns the inputs and weights to Neural Network class variables
 void Neural_Network::communication(double ANN_input)
 {
     state = ANN_input;
+    cout << "unnormailized state" << "\t" << state << endl;
+    normalize_inputs();
 }
 
 
