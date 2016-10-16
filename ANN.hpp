@@ -72,6 +72,9 @@ public:
     void build_hidden_to_output_layer_connection();
     void sum_hidden_to_output_layer_connections();
     
+    void scale_outputs();
+    double output;
+    
     void run_ANN(double ANN_input);
     
 };
@@ -261,6 +264,14 @@ void Neural_Network::sum_hidden_to_output_layer_connections()
 }
 
 
+////////////////////////////////////////////////////////////////
+//Sacle outputs
+void Neural_Network::scale_outputs()
+{
+    output = (lay.at(2).neuron.at(0).element*(pP->output_upper_limit - pP->output_lower_limit)) + pP->output_lower_limit;
+    cout << "ANN output" << "\t" << output << endl;
+}
+
 
 
 
@@ -287,7 +298,11 @@ void Neural_Network::run_ANN(double ANN_input)
         cout << endl;
         cout << endl;
     }
+    cout << endl;
+    
+    scale_outputs();
 }
+
 
 
 
