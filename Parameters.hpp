@@ -31,7 +31,7 @@ class Parameters
 public:
     int num_layers = 3;         //must be 3
     int input_layer_size = 1;   //must be 1
-    int hidden_layer_size = 1;
+    int hidden_layer_size = 5;
     int output_layer_size = 1;  //myst be 1
     
     double input_upper_limit = 2;

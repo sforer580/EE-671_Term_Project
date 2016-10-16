@@ -86,7 +86,6 @@ void EA::get_weights_for_ANN(int pop)
 
 
 
-
 ////////////////////////////////////////////////////////////////
 //runs the entire EA
 void EA::run_EA(vector<double> weights)

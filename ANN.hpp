@@ -76,6 +76,8 @@ public:
     void build_hidden_to_output_layer_connection();
     void sum_hidden_to_output_layer_connections();
     
+    double sigmoid_function(double sigmoid_input, double sigmoid_output);
+    
     void scale_outputs();
     double output;
     
@@ -250,6 +252,7 @@ void Neural_Network::build_input_to_hidden_layer_connection()
     {
         cout << input_to_hidden_layer_connections.at(i) << "\t";
     }
+    cout << endl;
     
     for (int c=0; c<input_to_hidden_layer_connections.size(); c++)
     {
@@ -281,6 +284,16 @@ void Neural_Network::sum_input_to_hidden_layer_connections()
         lay.at(1).neuron.at(n).element = sum;
     }
     lay.at(1).neuron.at(lay.at(1).neuron.size()-1).element = 1;
+    
+    for (int n=0; n<lay.at(1).neuron.size()-1; n++)
+    {
+        double sigmoid_input = 0;
+        double sigmoid_output = 0;
+        sigmoid_input = lay.at(1).neuron.at(n).element;
+        sigmoid_output = sigmoid_function(sigmoid_input, sigmoid_output);
+        lay.at(1).neuron.at(n).element = sigmoid_output;
+    }
+    
 }
 
 
@@ -311,6 +324,7 @@ void Neural_Network::build_hidden_to_output_layer_connection()
     {
         cout << hidden_to_output_layer_connections.at(i) << "\t";
     }
+    cout << endl;
     
     for (int c=0; c<hidden_to_output_layer_connections.size(); c++)
     {
@@ -326,7 +340,7 @@ void Neural_Network::build_hidden_to_output_layer_connection()
 }
 
 ////////////////////////////////////////////////////////////////
-//Get sum for output layer
+//Get value for output layer nodes
 void Neural_Network::sum_hidden_to_output_layer_connections()
 {
     for (int n=0; n<lay.at(2).neuron.size(); n++)
@@ -338,6 +352,25 @@ void Neural_Network::sum_hidden_to_output_layer_connections()
         }
         lay.at(2).neuron.at(n).element = sum;
     }
+    
+    for (int n=0; n<lay.at(2).neuron.size(); n++)
+    {
+        double sigmoid_input = 0;
+        double sigmoid_output = 0;
+        sigmoid_input = lay.at(2).neuron.at(n).element;
+        sigmoid_output = sigmoid_function(sigmoid_input, sigmoid_output);
+        lay.at(2).neuron.at(n).element = sigmoid_output;
+    }
+    
+}
+
+
+////////////////////////////////////////////////////////////////
+//runs the sigmoid function
+double Neural_Network::sigmoid_function(double sigmoid_input, double sigmoid_output)
+{
+    sigmoid_output = 1/(1+exp(-sigmoid_input));
+    return(sigmoid_output);
 }
 
 
