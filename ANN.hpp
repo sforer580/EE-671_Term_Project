@@ -180,19 +180,27 @@ void Neural_Network::build_input_to_hidden_layer_connection()
     {
         if (l0<lay.at(0).neuron.size()-1)
         {
+            //cout << lay.at(1).neuron.size() << endl;
             for (int l1=0; l1<lay.at(1).neuron.size()-1; l1++)
             {
-                input_to_hidden_layer_connections.at(l0) = state;
+                input_to_hidden_layer_connections.at(l0+l1) = state;
             }
         }
         if (l0 == lay.at(0).neuron.size()-1)
         {
             for (int l1=0; l1<lay.at(1).neuron.size()-1; l1++)
             {
-                input_to_hidden_layer_connections.at(l0+l1) = lay.at(0).neuron.at(l0).element;
+                input_to_hidden_layer_connections.at(l0+pP->hidden_layer_size-1+l1) = lay.at(0).neuron.at(l0).element;
             }
         }
     }
+    cout << "input to hidden layer connections" << endl;
+    for (int i=0; i< input_to_hidden_layer_connections.size(); i++)
+    {
+        cout << input_to_hidden_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    
 }
 
 
