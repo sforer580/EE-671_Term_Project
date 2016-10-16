@@ -57,7 +57,11 @@ public:
     void build_ANN();
     
     double state;
-    void communication(double ANN_input);
+    void communication(double ANN_input, vector<double> weights_for_ANN);
+    vector<double> i_h_w;
+    void get_i_h_w(vector<double> weights_for_ANN);
+    vector<double> h_o_w;
+    void get_h_o_w(vector<double> weights_for_ANN);
     void normalize_inputs();
     
     void get_inputs();
@@ -75,7 +79,7 @@ public:
     void scale_outputs();
     double output;
     
-    void run_ANN(double ANN_input);
+    void run_ANN(double ANN_input, vector<double> weights_for_ANN);
     
 };
 
@@ -125,7 +129,6 @@ void Neural_Network::build_ANN()
 
 
 ////////////////////////////////////////////////////////////////
-//Get Communication
 //Assigns the inputs and weights to Neural Network class variables
 void Neural_Network::normalize_inputs()
 {
@@ -134,13 +137,56 @@ void Neural_Network::normalize_inputs()
 
 
 ////////////////////////////////////////////////////////////////
+//gets the input to hidden layer weights
+void Neural_Network::get_i_h_w(vector<double> weights_for_ANN)
+{
+    i_h_w.resize(pP->num_i_h_w);
+    for (int w=0; w<pP->num_i_h_w; w++)
+    {
+        i_h_w.at(w) = weights_for_ANN.at(w);
+    }
+    cout << "input to hidden layer weights" << endl;
+    for (int w=0; w<pP->num_i_h_w; w++)
+    {
+        cout << i_h_w.at(w) << "\t";
+    }
+    cout << endl;
+    cout << endl;
+}
+
+
+////////////////////////////////////////////////////////////////
+//gets the hidden to output layer weights
+void Neural_Network::get_h_o_w(vector<double> weights_for_ANN)
+{
+    h_o_w.resize(pP->num_h_o_w);
+    for (int w=0; w<pP->num_h_o_w; w++)
+    {
+        h_o_w.at(w) = weights_for_ANN.at(w+pP->num_i_h_w);
+    }
+    cout << "hidden to output layer weights" << endl;
+    for (int w=0; w<pP->num_h_o_w; w++)
+    {
+        cout << h_o_w.at(w) << "\t";
+    }
+    cout << endl;
+    cout << endl;
+}
+
+
+
+////////////////////////////////////////////////////////////////
 //Get Communication
 //Assigns the inputs and weights to Neural Network class variables
-void Neural_Network::communication(double ANN_input)
+void Neural_Network::communication(double ANN_input, vector<double> weights_for_ANN)
 {
     state = ANN_input;
-    cout << "unnormailized state" << "\t" << state << endl;
+    cout << "input" << "\t" << state << endl;
+    cout << endl;
     normalize_inputs();
+    get_i_h_w(weights_for_ANN);
+    get_h_o_w(weights_for_ANN);
+    
 }
 
 
@@ -149,7 +195,7 @@ void Neural_Network::communication(double ANN_input)
 void Neural_Network::get_inputs()
 {
     lay.at(0).neuron.at(0).element = state;
-    cout << "check" << "\t" << lay.at(0).neuron.at(0).element << endl;
+    cout << "normalized input" << "\t" << lay.at(0).neuron.at(0).element << endl;
     cout << endl;
 }
 
@@ -198,7 +244,7 @@ void Neural_Network::build_input_to_hidden_layer_connection()
         }
     }
     cout << "input to hidden layer connections" << endl;
-    for (int i=0; i< input_to_hidden_layer_connections.size(); i++)
+    for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
     {
         cout << input_to_hidden_layer_connections.at(i) << "\t";
     }
@@ -246,6 +292,13 @@ void Neural_Network::build_hidden_to_output_layer_connection()
             }
         }
     }
+    cout << "hidden to output layer connections" << endl;
+    for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
+    {
+        cout << hidden_to_output_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    
 }
 
 ////////////////////////////////////////////////////////////////
@@ -277,9 +330,9 @@ void Neural_Network::scale_outputs()
 
 ////////////////////////////////////////////////////////////////
 //Gets the inputs for the input layer
-void Neural_Network::run_ANN(double ANN_input)
+void Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
 {
-    communication(ANN_input);
+    communication(ANN_input, weights_for_ANN);
     get_inputs();
     build_input_nodes();
     build_input_to_hidden_layer_connection();

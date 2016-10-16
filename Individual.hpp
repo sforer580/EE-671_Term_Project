@@ -15,11 +15,11 @@
 class Individual
 {
     friend class Neural_Network;
+    friend class EA;
     
 public:
-    vector<double> input_to_hidden_layer_weights;
-    vector<double> hidden_to_output_layer_weights;
-    
+    vector<double> weights;
+    double fitness;
 };
 
 

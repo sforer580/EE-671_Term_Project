@@ -19,15 +19,17 @@
 #include "Parameters.hpp"
 #include "ANN.hpp"
 #include "EA.hpp"
+#include "Individual.hpp"
 
 int main()
 {
     srand(time(NULL));
     Parameters P;
+    Individual I;
     EA E;
     E.pP = &P;
     
-    E.run_EA();
+    E.run_EA(I.weights);
     
     
     

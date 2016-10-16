@@ -11,11 +11,13 @@
 
 #include <stdio.h>
 
+#include "Individual.hpp"
 
 
 class EA
 {
     friend class Neural_Network;
+    friend class Individual;
     
 public:
     Parameters* pP;
@@ -23,7 +25,12 @@ public:
     void create_inputs();
     double ANN_input;
     
-    void run_EA();
+    vector<Individual> agent;
+    void create_weights(vector<double> weights);
+    void get_weights_for_ANN(int pop);
+    vector<double> weights_for_ANN;
+    
+    void run_EA(vector<double> weights);
     
 };
 
@@ -47,24 +54,57 @@ void EA::create_inputs()
 }
 
 
+////////////////////////////////////////////////////////////////
+//creates the weigths for the ANN
+void EA::create_weights(vector<double> weights)
+{
+    for (int pop=0; pop<pP->pop_size; pop++)
+    {
+        Individual I;
+        agent.push_back(I);
+        agent.at(pop).weights.resize(pP->num_weights);
+        for (int n=0; n<pP->num_weights; n++)
+        {
+            agent.at(pop).weights.at(n) = pP->weight_range*((double)rand()/RAND_MAX)+pP->min_weight;
+        }
+    }
+}
+
+
+////////////////////////////////////////////////////////////////
+//gets the weights for the ANN
+void EA::get_weights_for_ANN(int pop)
+{
+    weights_for_ANN.resize(pP->num_weights);
+    for (int w=0; w<pP->num_weights; w++)
+    {
+        weights_for_ANN.at(w) = agent.at(pop).weights.at(w);
+    }
+}
+
+
+
 
 
 
 ////////////////////////////////////////////////////////////////
-//creates the weights for the ANN
-
-
-
-
-
-void EA::run_EA()
+//runs the entire EA
+void EA::run_EA(vector<double> weights)
 {
     Neural_Network ANN;
     Parameters P;
     ANN.pP = &P;
     ANN.build_ANN();
     create_inputs();
-    ANN.run_ANN(ANN_input);
+    create_weights(weights);
+    for (int gen=0; gen<pP->max_gen; gen++)
+    {
+        for (int pop=0; pop<pP->pop_size; pop++)
+        {
+            get_weights_for_ANN(pop);
+            ANN.run_ANN(ANN_input, weights_for_ANN);
+        }
+    }
 }
 
 
