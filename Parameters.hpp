@@ -38,6 +38,8 @@ public:
     double input_lower_limit = -5;
     double output_upper_limit = 30;
     double output_lower_limit = -2;
+    double output_upper_limit = 25;
+    double output_lower_limit = 0;
     
     int num_i_h_w = (input_layer_size+1)*(hidden_layer_size);
     int num_h_o_w = (hidden_layer_size+1)*(output_layer_size);

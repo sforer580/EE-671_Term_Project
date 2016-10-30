@@ -254,6 +254,7 @@ void EA::run_EA(vector<double> weights)
         }
         sort_indivduals_fitness();
         get_statistics();
+
         cout << "current population" << endl;
         for (int indv=0; indv<pP->pop_size; indv++)
         {
@@ -277,6 +278,7 @@ void EA::run_EA(vector<double> weights)
             }
             */
         }
+
     }
     write_statistics_to_file();
 }
