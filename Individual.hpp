@@ -21,6 +21,7 @@ public:
     vector<double> weights;
     double agent_output;
     double fitness;
+    int age = 0;
 };
 
 

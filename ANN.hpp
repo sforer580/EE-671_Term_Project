@@ -83,6 +83,7 @@ public:
     
     double run_ANN(double ANN_input, vector<double> weights_for_ANN);
     
+    
 };
 
 
@@ -230,6 +231,7 @@ void Neural_Network::build_input_nodes()
 //Builds the input to hidden layer connections
 void Neural_Network::build_input_to_hidden_layer_connection()
 {
+    //cout << lay.at(1).neuron.size()-1 << endl;
     input_to_hidden_layer_connections.resize(lay.at(0).neuron.size()*(lay.at(1).neuron.size()-1));
     for (int l0=0; l0<lay.at(0).neuron.size(); l0++)
     {
@@ -238,14 +240,14 @@ void Neural_Network::build_input_to_hidden_layer_connection()
             //cout << lay.at(1).neuron.size() << endl;
             for (int l1=0; l1<lay.at(1).neuron.size()-1; l1++)
             {
-                input_to_hidden_layer_connections.at(l0+l1) = state;
+                input_to_hidden_layer_connections.at(l0+l1) = state*i_h_w.at(l0);
             }
         }
         if (l0 == lay.at(0).neuron.size()-1)
         {
             for (int l1=0; l1<lay.at(1).neuron.size()-1; l1++)
             {
-                input_to_hidden_layer_connections.at(l0+pP->hidden_layer_size-1+l1) = lay.at(0).neuron.at(l0).element;
+                input_to_hidden_layer_connections.at(l0+pP->hidden_layer_size-1+l1) = lay.at(0).neuron.at(l0).element*i_h_w.at(l0);
             }
         }
     }
@@ -312,14 +314,14 @@ void Neural_Network::build_hidden_to_output_layer_connection()
         {
             for (int l2=0; l2<lay.at(2).neuron.size(); l2++)
             {
-                hidden_to_output_layer_connections.at(l1) = lay.at(1).neuron.at(l1).element;
+                hidden_to_output_layer_connections.at(l1) = lay.at(1).neuron.at(l1).element*h_o_w.at(l1);
             }
         }
         if (l1 == lay.at(1).neuron.size()-1)
         {
             for (int l2=0; l2<lay.at(2).neuron.size(); l2++)
             {
-             hidden_to_output_layer_connections.at(l1+l2) = 1;
+             hidden_to_output_layer_connections.at(l1+l2) = 1*h_o_w.at(l1);
             }
         }
     }
@@ -421,6 +423,8 @@ double Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
     scale_outputs();
     return output;
 }
+
+
 
 
 

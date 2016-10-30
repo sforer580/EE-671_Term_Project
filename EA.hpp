@@ -23,7 +23,7 @@ public:
     Parameters* pP;
     
     void build_pop();
-    void create_inputs();
+    void create_input();
     double ANN_input;
     
     vector<Individual> agent;
@@ -50,7 +50,7 @@ public:
 
 ////////////////////////////////////////////////////////////////
 //creates the inputs for the ANN
-void EA::create_inputs()
+void EA::create_input()
 {
     for (int input=0; input<pP->input_layer_size; input++)
     {
@@ -121,7 +121,7 @@ int EA::binary_select()
     {
         index_2 = rand() % agent.size();
     }
-    if(agent.at(index_1).fitness > agent.at(index_2).fitness)
+    if(agent.at(index_1).fitness < agent.at(index_2).fitness)
     {
         loser = index_2;
     }
@@ -135,12 +135,18 @@ int EA::binary_select()
 
 ////////////////////////////////////////////////////////////////
 //mutates the copies of the winning individuals
-void mutation(Individual &M)
+void EA::mutation(Individual &M)
 {
-    
-    
- 
-    
+    for (int w=0; w<pP->num_weights; w++)
+    {
+        double random = ((double)rand()/RAND_MAX);
+        if (random <= pP->mutation_rate)
+        {
+            double R1 = ((double)rand()/RAND_MAX) * pP->range;
+            double R2 = ((double)rand()/RAND_MAX) * pP->range;
+            M.weights.at(w) = M.weights.at(w) + (R1-R2);
+        }
+    }
 }
 
 
@@ -161,9 +167,10 @@ void EA::natural_selection()
         Individual M;
         int spot = rand() % agent.size();
         M = agent.at(spot);
-        cout << "cp" << endl;
+        //cout << "cp" << endl;
         mutation(M);
-        //agent.push_back(M);
+        agent.push_back(M);
+        agent.at(agent.size()-1).age = 0;
     }
 }
 
@@ -181,15 +188,45 @@ void EA::run_EA(vector<double> weights)
     build_pop();
     for (int gen=0; gen<pP->max_gen; gen++)
     {
-        create_inputs();
+        cout << "------------------------------------------------------------" << endl;
+        cout << "generation" << "\t" << gen << endl;
+        cout << endl;
+        create_input();
+        cout << "input" << "\t" << ANN_input << endl;
         get_target();
+        cout << "target" << "\t" << target << endl;
+        cout << endl;
         for (int pop=0; pop<pP->pop_size; pop++)
         {
+            agent.at(pop).age += 1;
             get_weights_for_ANN(pop);
             agent.at(pop).agent_output = ANN.run_ANN(ANN_input, weights_for_ANN);
             get_fitness(pop);
         }
-        natural_selection();
+        cout << "current population" << endl;
+        for (int indv=0; indv<pP->pop_size; indv++)
+        {
+            cout << "agent" << "\t" << indv << endl;
+            cout << "age" << "\t" << agent.at(indv).age << endl;
+            cout << "output" << "\t" << agent.at(indv).agent_output << endl;
+            cout << "fitness" << "\t" << agent.at(indv).fitness << endl;
+            cout << endl;
+        }
+        cout << endl;
+        if (gen < pP->max_gen-1)
+        {
+         natural_selection();
+            /*
+            cout << "new population" << endl;
+            for (int indv=0; indv<pP->pop_size; indv++)
+            {
+                cout << "agent" << "\t" << indv << endl;
+                cout << "output" << "\t" << agent.at(indv).agent_output << endl;
+                cout << endl;
+            }
+            */
+        }
+        
         
     }
 }

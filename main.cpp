@@ -28,7 +28,6 @@ int main()
     Individual I;
     EA E;
     E.pP = &P;
-    
     E.run_EA(I.weights);
     
     
