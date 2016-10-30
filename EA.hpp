@@ -22,6 +22,7 @@ class EA
 public:
     Parameters* pP;
     
+    void build_pop();
     void create_inputs();
     double ANN_input;
     
@@ -30,9 +31,18 @@ public:
     void get_weights_for_ANN(int pop);
     vector<double> weights_for_ANN;
     
+    void get_target();
+    double target;
+    void get_fitness(int pop);
+    void natural_selection();
+    int binary_select();
+    void mutation(Individual &M);
+    
     void run_EA(vector<double> weights);
     
 };
+
+
 
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,7 +66,7 @@ void EA::create_inputs()
 
 ////////////////////////////////////////////////////////////////
 //creates the weigths for the ANN
-void EA::create_weights(vector<double> weights)
+void EA::build_pop()
 {
     for (int pop=0; pop<pP->pop_size; pop++)
     {
@@ -83,6 +93,80 @@ void EA::get_weights_for_ANN(int pop)
 }
 
 
+////////////////////////////////////////////////////////////////
+//gets the target fucntion output
+void EA::get_target()
+{
+    target = 0;
+    target = ANN_input*ANN_input + 1;
+}
+
+
+////////////////////////////////////////////////////////////////
+//gets the fitness for an agent
+void EA::get_fitness(int pop)
+{
+    agent.at(pop).fitness = abs(target - agent.at(pop).agent_output);
+}
+
+
+////////////////////////////////////////////////////////////////
+//randomly selects two individuals and decides which one will die based on their fitness
+int EA::binary_select()
+{
+    int loser;
+    int index_1 = rand() % agent.size();
+    int index_2 = rand() % agent.size();
+    while (index_1 == index_2)
+    {
+        index_2 = rand() % agent.size();
+    }
+    if(agent.at(index_1).fitness > agent.at(index_2).fitness)
+    {
+        loser = index_2;
+    }
+    else
+    {
+        loser = index_1;
+    }
+    return loser;
+}
+
+
+////////////////////////////////////////////////////////////////
+//mutates the copies of the winning individuals
+void mutation(Individual &M)
+{
+    
+    
+ 
+    
+}
+
+
+////////////////////////////////////////////////////////////////
+//runs the entire natural selectiona dn mutation process
+void EA::natural_selection()
+{
+    int kill;
+    for(int k=0; k<pP->to_kill; k++)
+    {
+        kill = binary_select();
+        agent.erase(agent.begin() + kill);
+    }
+    
+    int to_replicate = pP->to_kill;
+    for (int rRrR=0; rRrR<to_replicate; rRrR++)
+    {
+        Individual M;
+        int spot = rand() % agent.size();
+        M = agent.at(spot);
+        cout << "cp" << endl;
+        mutation(M);
+        //agent.push_back(M);
+    }
+}
+
 
 
 
@@ -94,15 +178,19 @@ void EA::run_EA(vector<double> weights)
     Parameters P;
     ANN.pP = &P;
     ANN.build_ANN();
-    create_inputs();
-    create_weights(weights);
+    build_pop();
     for (int gen=0; gen<pP->max_gen; gen++)
     {
+        create_inputs();
+        get_target();
         for (int pop=0; pop<pP->pop_size; pop++)
         {
             get_weights_for_ANN(pop);
-            ANN.run_ANN(ANN_input, weights_for_ANN);
+            agent.at(pop).agent_output = ANN.run_ANN(ANN_input, weights_for_ANN);
+            get_fitness(pop);
         }
+        natural_selection();
+        
     }
 }
 

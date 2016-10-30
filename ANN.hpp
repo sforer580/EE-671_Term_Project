@@ -81,7 +81,7 @@ public:
     void scale_outputs();
     double output;
     
-    void run_ANN(double ANN_input, vector<double> weights_for_ANN);
+    double run_ANN(double ANN_input, vector<double> weights_for_ANN);
     
 };
 
@@ -147,6 +147,7 @@ void Neural_Network::get_i_h_w(vector<double> weights_for_ANN)
     {
         i_h_w.at(w) = weights_for_ANN.at(w);
     }
+    /*
     cout << "input to hidden layer weights" << endl;
     for (int w=0; w<pP->num_i_h_w; w++)
     {
@@ -154,6 +155,7 @@ void Neural_Network::get_i_h_w(vector<double> weights_for_ANN)
     }
     cout << endl;
     cout << endl;
+    */
 }
 
 
@@ -166,6 +168,7 @@ void Neural_Network::get_h_o_w(vector<double> weights_for_ANN)
     {
         h_o_w.at(w) = weights_for_ANN.at(w+pP->num_i_h_w);
     }
+    /*
     cout << "hidden to output layer weights" << endl;
     for (int w=0; w<pP->num_h_o_w; w++)
     {
@@ -173,6 +176,7 @@ void Neural_Network::get_h_o_w(vector<double> weights_for_ANN)
     }
     cout << endl;
     cout << endl;
+    */
 }
 
 
@@ -183,8 +187,8 @@ void Neural_Network::get_h_o_w(vector<double> weights_for_ANN)
 void Neural_Network::communication(double ANN_input, vector<double> weights_for_ANN)
 {
     state = ANN_input;
-    cout << "input" << "\t" << state << endl;
-    cout << endl;
+    //cout << "input" << "\t" << state << endl;
+    //cout << endl;
     normalize_inputs();
     get_i_h_w(weights_for_ANN);
     get_h_o_w(weights_for_ANN);
@@ -197,8 +201,8 @@ void Neural_Network::communication(double ANN_input, vector<double> weights_for_
 void Neural_Network::get_inputs()
 {
     lay.at(0).neuron.at(0).element = state;
-    cout << "normalized input" << "\t" << lay.at(0).neuron.at(0).element << endl;
-    cout << endl;
+    //cout << "normalized input" << "\t" << lay.at(0).neuron.at(0).element << endl;
+    //cout << endl;
 }
 
 
@@ -246,7 +250,7 @@ void Neural_Network::build_input_to_hidden_layer_connection()
         }
     }
     
-    
+    /*
     cout << "input to hidden layer connections before weights" << endl;
     for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
     {
@@ -266,7 +270,7 @@ void Neural_Network::build_input_to_hidden_layer_connection()
     }
     cout << endl;
     cout << endl;
-    
+    */
 }
 
 
@@ -319,6 +323,7 @@ void Neural_Network::build_hidden_to_output_layer_connection()
             }
         }
     }
+    /*
     cout << "hidden to output layer connections before weights" << endl;
     for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
     {
@@ -336,7 +341,7 @@ void Neural_Network::build_hidden_to_output_layer_connection()
         cout << hidden_to_output_layer_connections.at(i) << "\t";
     }
     cout << endl;
-    
+    */
 }
 
 ////////////////////////////////////////////////////////////////
@@ -378,8 +383,9 @@ double Neural_Network::sigmoid_function(double sigmoid_input, double sigmoid_out
 //Sacle outputs
 void Neural_Network::scale_outputs()
 {
+    output = 0;
     output = (lay.at(2).neuron.at(0).element*(pP->output_upper_limit - pP->output_lower_limit)) + pP->output_lower_limit;
-    cout << "ANN output" << "\t" << output << endl;
+    //cout << "ANN output" << "\t" << output << endl;
 }
 
 
@@ -387,7 +393,7 @@ void Neural_Network::scale_outputs()
 
 ////////////////////////////////////////////////////////////////
 //Gets the inputs for the input layer
-void Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
+double Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
 {
     communication(ANN_input, weights_for_ANN);
     get_inputs();
@@ -396,6 +402,7 @@ void Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
     sum_input_to_hidden_layer_connections();
     build_hidden_to_output_layer_connection();
     sum_hidden_to_output_layer_connections();
+    /*
     cout << endl;
     
     for (int l=0; l<3; l++)
@@ -410,8 +417,9 @@ void Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
         cout << endl;
     }
     cout << endl;
-    
+    */
     scale_outputs();
+    return output;
 }
 
 
