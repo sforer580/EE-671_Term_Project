@@ -20,6 +20,7 @@ class Individual
 public:
     vector<double> weights;
     double agent_output;
+    double error;
     double fitness;
     int age = 0;
 };
