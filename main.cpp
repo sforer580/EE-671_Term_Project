@@ -28,9 +28,8 @@ int main()
     Individual I;
     EA E;
     E.pP = &P;
+    Neural_Network ANN;
+    ANN.pP = &P;
     E.run_EA(I.weights);
-    
-    
-    
     return 0;
 }

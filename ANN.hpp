@@ -49,6 +49,7 @@ class Neural_Network
 {
     friend class Layer;
     friend class EA;
+    friend class Parameters;
     
 public:
     Parameters* pP;
@@ -149,14 +150,14 @@ void Neural_Network::get_i_h_w(vector<double> weights_for_ANN)
         i_h_w.at(w) = weights_for_ANN.at(w);
     }
     /*
-     cout << "input to hidden layer weights" << endl;
-     for (int w=0; w<pP->num_i_h_w; w++)
-     {
-     cout << i_h_w.at(w) << "\t";
-     }
-     cout << endl;
-     cout << endl;
-     */
+    cout << "input to hidden layer weights" << endl;
+    for (int w=0; w<pP->num_i_h_w; w++)
+    {
+        cout << i_h_w.at(w) << "\t";
+    }
+    cout << endl;
+    cout << endl;
+    */
 }
 
 
@@ -170,14 +171,14 @@ void Neural_Network::get_h_o_w(vector<double> weights_for_ANN)
         h_o_w.at(w) = weights_for_ANN.at(w+pP->num_i_h_w);
     }
     /*
-     cout << "hidden to output layer weights" << endl;
-     for (int w=0; w<pP->num_h_o_w; w++)
-     {
-     cout << h_o_w.at(w) << "\t";
-     }
-     cout << endl;
-     cout << endl;
-     */
+    cout << "hidden to output layer weights" << endl;
+    for (int w=0; w<pP->num_h_o_w; w++)
+    {
+        cout << h_o_w.at(w) << "\t";
+    }
+    cout << endl;
+    cout << endl;
+    */
 }
 
 
@@ -219,7 +220,7 @@ void Neural_Network::build_input_nodes()
         }
         if (n==lay.at(0).neuron.size()-1)
         {
-            lay.at(0).neuron.at(n).element = 1;
+           lay.at(0).neuron.at(n).element = 1;
         }
     }
 }
@@ -253,26 +254,26 @@ void Neural_Network::build_input_to_hidden_layer_connection()
     }
     
     /*
-     cout << "input to hidden layer connections before weights" << endl;
-     for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
-     {
-     cout << input_to_hidden_layer_connections.at(i) << "\t";
-     }
-     cout << endl;
-     
-     for (int c=0; c<input_to_hidden_layer_connections.size(); c++)
-     {
-     input_to_hidden_layer_connections.at(c) = input_to_hidden_layer_connections.at(c)*i_h_w.at(c);
-     }
-     
-     cout << "input to hidden layer connections after weights" << endl;
-     for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
-     {
-     cout << input_to_hidden_layer_connections.at(i) << "\t";
-     }
-     cout << endl;
-     cout << endl;
-     */
+    cout << "input to hidden layer connections before weights" << endl;
+    for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
+    {
+        cout << input_to_hidden_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    
+    for (int c=0; c<input_to_hidden_layer_connections.size(); c++)
+    {
+        input_to_hidden_layer_connections.at(c) = input_to_hidden_layer_connections.at(c)*i_h_w.at(c);
+    }
+    
+    cout << "input to hidden layer connections after weights" << endl;
+    for (int i=0; i<input_to_hidden_layer_connections.size(); i++)
+    {
+        cout << input_to_hidden_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    cout << endl;
+    */
 }
 
 
@@ -321,29 +322,29 @@ void Neural_Network::build_hidden_to_output_layer_connection()
         {
             for (int l2=0; l2<lay.at(2).neuron.size(); l2++)
             {
-                hidden_to_output_layer_connections.at(l1+l2) = 1*h_o_w.at(l1);
+             hidden_to_output_layer_connections.at(l1+l2) = 1*h_o_w.at(l1);
             }
         }
     }
     /*
-     cout << "hidden to output layer connections before weights" << endl;
-     for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
-     {
-     cout << hidden_to_output_layer_connections.at(i) << "\t";
-     }
-     cout << endl;
-     
-     for (int c=0; c<hidden_to_output_layer_connections.size(); c++)
-     {
-     hidden_to_output_layer_connections.at(c) = hidden_to_output_layer_connections.at(c)*h_o_w.at(c);
-     }
-     cout << "hidden to output layer connections after weights" << endl;
-     for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
-     {
-     cout << hidden_to_output_layer_connections.at(i) << "\t";
-     }
-     cout << endl;
-     */
+    cout << "hidden to output layer connections before weights" << endl;
+    for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
+    {
+        cout << hidden_to_output_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    
+    for (int c=0; c<hidden_to_output_layer_connections.size(); c++)
+    {
+        hidden_to_output_layer_connections.at(c) = hidden_to_output_layer_connections.at(c)*h_o_w.at(c);
+    }
+    cout << "hidden to output layer connections after weights" << endl;
+    for (int i=0; i<hidden_to_output_layer_connections.size(); i++)
+    {
+        cout << hidden_to_output_layer_connections.at(i) << "\t";
+    }
+    cout << endl;
+    */
 }
 
 ////////////////////////////////////////////////////////////////
@@ -405,22 +406,22 @@ double Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
     sum_input_to_hidden_layer_connections();
     build_hidden_to_output_layer_connection();
     sum_hidden_to_output_layer_connections();
-    /*
-     cout << endl;
-     
-     for (int l=0; l<3; l++)
-     {
-     cout << "Layer" << "\t" << l << endl;
-     for (int n=0; n<lay.at(l).neuron.size(); n++)
-     {
-     cout << "node" << "\t" << n << endl;
-     cout << "value" << "\t" << lay.at(l).neuron.at(n).element << endl;
-     }
-     cout << endl;
-     cout << endl;
-     }
-     cout << endl;
-     */
+    
+    cout << endl;
+    
+    for (int l=0; l<3; l++)
+    {
+        cout << "Layer" << "\t" << l << endl;
+        for (int n=0; n<lay.at(l).neuron.size(); n++)
+        {
+            cout << "node" << "\t" << n << endl;
+            cout << "value" << "\t" << lay.at(l).neuron.at(n).element << endl;
+        }
+        cout << endl;
+        cout << endl;
+    }
+    cout << endl;
+    
     scale_outputs();
     //cout << "ANN output" << "\t" << output << endl;
     return output;
