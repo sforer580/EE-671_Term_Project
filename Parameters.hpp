@@ -46,12 +46,12 @@ public:
     double weight_range = max_weight-min_weight;
     
     //EA Parameters
-    int pop_size = 2;
+    int pop_size = 100;
     int to_kill = pop_size/2;
     double mutation_rate = 0.5;
     double range = 0.5;
-    int max_gen = 10;
-    int num_tp = 1;
+    int max_gen = 500;
+    int num_tp = 100;
     
     //experimental parameters
     int x_squared_plus_1_minus_5_0 = 0;     //0=off, 1=on

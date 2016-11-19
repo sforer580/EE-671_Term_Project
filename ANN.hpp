@@ -407,6 +407,7 @@ double Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
     build_hidden_to_output_layer_connection();
     sum_hidden_to_output_layer_connections();
     
+    /*
     cout << endl;
     
     for (int l=0; l<3; l++)
@@ -421,7 +422,8 @@ double Neural_Network::run_ANN(double ANN_input, vector<double> weights_for_ANN)
         cout << endl;
     }
     cout << endl;
-    
+    */
+     
     scale_outputs();
     //cout << "ANN output" << "\t" << output << endl;
     return output;

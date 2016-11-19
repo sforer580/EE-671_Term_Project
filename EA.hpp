@@ -469,7 +469,7 @@ void EA::run_best_agent(Individual &BI)
     double tp = pP->input_lower_limit;
     while (tp<pP->input_upper_limit)
     {
-        cout << tp << endl;
+        //cout << tp << endl;
         best_input.push_back(tp);
         ANN_input = tp;
         if (pP->x_squared_plus_1_minus_5_0 == 1)
@@ -521,11 +521,11 @@ void EA::run_best_agent(Individual &BI)
             target_output.push_back(tan(ANN_input));
         }
         //cout << best_input.at(tp) << endl;
-        cout << "input" << "\t" << ANN_input << endl;
+        //cout << "input" << "\t" << ANN_input << endl;
         get_best_weights_for_ANN(BI);
         BI.agent_output = ANN.run_ANN(ANN_input, weights_for_ANN);
         best_output.push_back(BI.agent_output);
-        cout << "agent output" << "\t" << best_output.at(tp) << endl;
+        //cout << "agent output" << "\t" << best_output.at(tp) << endl;
         tp += 0.1;
     }
 }
@@ -706,10 +706,11 @@ void EA::run_EA(vector<double> weights)
 {
     clock_t t1, t2;
     t1 = clock();
+    set_experiments();
     Neural_Network ANN;
+    ANN.pP = this->pP;
     ANN.build_ANN();
     build_pop();
-    set_experiments();
     for (int gen=0; gen<pP->max_gen; gen++)
     {
         create_inputs();
@@ -724,7 +725,7 @@ void EA::run_EA(vector<double> weights)
             for (int tp=0; tp<pP->num_tp; tp++)
             {
                 ANN_input = inputs.at(tp);
-                cout << "input" << "\t" << ANN_input << endl;
+                //cout << "input" << "\t" << ANN_input << endl;
                 get_target();
                 //cout << "target" << "\t" << target << endl;
                 get_weights_for_ANN(pop);
